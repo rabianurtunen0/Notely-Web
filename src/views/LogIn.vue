@@ -1,16 +1,28 @@
 <template>
-    <div class="overflow-hidden bg-[#eaeaea] h-screen">
+  <div class="absolute top-3 right-3"> 
+    <div v-if="theme === true"> 
+      <button class="" @click="changeTheme"> 
+        <i class="bi bi-brightness-high-fill text-[#2a2b2e] dark:text-white hover:text-[#a3333d] dark:hover:text-[#a3333d]"></i>
+      </button>
+    </div>
+    <div v-else> 
+      <button class="" @click="changeTheme"> 
+        <i class="bi bi-moon text-[#2a2b2e] dark:text-white hover:text-[#a3333d] dark:hover:text-[#a3333d]"></i>
+      </button>
+    </div>
+  </div> 
+    <div class="overflow-hidden bg-[#eaeaea] dark:bg-[#2a2b2e] h-screen">
       <div class="justify-center m-auto h-24 mt-28 mb-20">
           <img class=" block justify-center m-auto h-20 w-20 text-center" src="../assets/images/app-icon.svg"/> 
-          <h1 class="text-3xl not-italic text-center font-serif">Log In</h1>
+          <h1 class="text-[#2a2b2e] dark:text-white text-3xl not-italic text-center font-serif">Log In</h1>
       </div>
       <div>
-        <h5 class="font-serif font-black text-xs ml-[-190px] mt-12 mb-1">Email Address</h5>
+        <h5 class="font-serif font-black text-xs text-[#2a2b2e] dark:text-white ml-[-190px] mt-12 mb-1">Email Address</h5>
         <input type="text" class="w-72 h-9 rounded-lg bg-white border-2 border-solid border-[#a3333d] p-2.5 text-sm shadow-sm focus:border-2
       focus:outline-none focus:border-[#a3333d] focus:ring-1 focus:ring-[#a3333d] placeholder-gray-500" placeholder="Enter your email address..."/>
       </div>
       <div> 
-        <h5 class="font-serif font-black text-xs ml-[-216px] mt-6 mb-1">Password</h5>
+        <h5 class="font-serif font-black text-xs text-[#2a2b2e] dark:text-white ml-[-216px] mt-6 mb-1">Password</h5>
         <input type="text" class="w-72 h-9 rounded-lg bg-white border-2 border-solid border-[#a3333d] p-2.5 text-sm shadow-sm focus:border-2
       focus:outline-none focus:border-[#a3333d] focus:ring-1 focus:ring-[#a3333d] placeholder-gray-500" placeholder="Enter your password..."/>
       </div>
@@ -19,25 +31,25 @@
       </div>
       <div class="inline-flex items-center mt- mb-6">
         <input type="checkbox" value="" class="border-solid w-4 h-4 rounded-xl bg-white accent-[#a3333d]">
-        <label class="font-serif font-normal text-sm ml-2">Remember Me</label><br>
+        <label class="font-serif font-normal text-sm text-[#2a2b2e] dark:text-white ml-2">Remember Me</label><br>
       </div>
       <div>
-          <button class="font-serif font-black text-sm">
+          <button class="font-serif font-black text-sm text-[#2a2b2e] dark:text-white">
             <router-link to="/forgotpassword">Forgot your password?</router-link>
           </button>
       </div>
       <div class=""> 
-        <hr id='line' class="overflow-visible m-auto w-1/4 h-0.5 bg-[#2a2b2e] after:content-['Or'] after:bg-[#eaeaea] after:relative after:p-2 after:bottom-12 after:italic after:text-sm after:top-[-13px] my-5">
+        <hr id='line' class="overflow-visible m-auto w-1/4 h-0.5 bg-[#2a2b2e] after:text-[#2a2b2e] dark:after:text-white after:content-['Or'] after:bg-[#eaeaea] dark:after:bg-[#2a2b2e] after:relative after:p-2 after:bottom-12 after:italic after:text-sm after:top-[-13px] my-5">
       </div>
       <div> 
-        <button class="inline-flex w-56 h-8 bg-white border-2 border-solid rounded-lg border-white font-serif font-normal text-sm mb-2">
+        <button class="inline-flex w-56 h-8 bg-white border-2 border-solid rounded-lg border-white font-serif font-normal text-sm text-[#2a2b2e]">
           <img src="../assets/images/google.svg" alt="" class="h-5 w-5 ml-8 mr-2 mt-1">
           <label class="mt-1">Continue with Google</label>
         </button>
       </div>
       <div class="inline-flex"> 
-        <h1 class="font-serif font-normal text-sm">Don't have an account?</h1>
-        <button class="ml-1 font-serif font-black text-sm">
+        <h1 class="font-serif font-normal text-sm text-[#2a2b2e] dark:text-white">Don't have an account?</h1>
+        <button class="ml-1 font-serif font-black text-sm text-[#2a2b2e] dark:text-white">
           <router-link to="/signup">Sign up</router-link>
         </button>
       </div>
@@ -60,13 +72,40 @@
 <script>
 export default {
   name: "LogIn",
+  data() {
+    return {
+      theme: localStorage.getItem('color-theme') === 'ligth' ? true : false,
+      themeToggleDarkIcon: document.getElementById('theme-toggle-dark-icon'),
+      themeToggleLightIcon: document.getElementById('theme-toggle-light-icon'),
+    };
+  },
   methods: {
     goHome() {
       const router = this.$router;
       router.push({name: 'NotelyHomePage'});
-    }
-  }
-
+    },
+    changeTheme() {
+      this.theme = !this.theme;
+      
+        if (localStorage.getItem('color-theme')) {
+          if(localStorage.getItem('color-theme') === 'light') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+          } 
+        } else {
+          if(document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+          } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+          }
+      }
+    },
+  },
 };
 
 </script>
