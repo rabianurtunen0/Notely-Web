@@ -245,6 +245,7 @@ import { ref } from "vue";
 const addButton = ref(false);
 const noteArea = ref(false);
 const listArea = ref(false);
+const main= ref()
 const theme = ref(
   localStorage.getItem("color-theme") === "light" ? true : false
 );
@@ -276,17 +277,18 @@ const add = () => {
 const newNote = () => {
   noteArea.value = !noteArea.value;
   listArea.value = false;
-  main.style.display = "none"
+  main.value.style.display = "none"
 };
 const newList = () => {
   listArea.value = !listArea.value;
   noteArea.value = false;
-  main.style.display = "none"
+  main.value.style.display = "none"
 };
 const newAddNote = () => {
   noteArea.value = !noteArea.value;
-  main.style.display = "block"
+  main.value.style.display = "block"
 }
+
 const newTask = () => {
   if(document.querySelector('#addTask input').value.length == 0) {
     alert("Hata")
@@ -312,6 +314,7 @@ const newTask = () => {
         }
   }
 }
+
 </script>
 
 <style> 

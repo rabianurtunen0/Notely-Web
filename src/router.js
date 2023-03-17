@@ -34,51 +34,41 @@ const routes = [
 
     {
         path: '/toDoList',
-        name: "toDoList",
-        component: () => import("@/views/ToDoList"),
+        name: "ToDoList",
+        component: () => import("@/views/ToDoListPage"),
     },
 
     {
         path: '/note',
-        name: "note",
-        component: () => import("@/views/Note"),
+        name: "Note",
+        component: () => import("@/views/NotePage"),
     },
 
     {
         path: '/label',
         name: "Label",
-        component: () => import("@/views/Label"),
-    },
-
-    {
-        path: '/notesOfLabel',
-        name: "notesOfLabel",
-        component: () => import("@/views/NotesOfLabel"),
+        component: () => import("@/views/LabelPage"),
     },
 
     {
         path: '/archive',
-        name: "archive",
-        component: () => import("@/views/Archive"),
+        name: "Archive",
+        component: () => import("@/views/ArchivePage"),
     },
 
     {
         path: '/trash',
-        name: "trash",
-        component: () => import("@/views/Trash"),
+        name: "Trash",
+        component: () => import("@/views/TrashPage"),
     },
 
     {
         path: '/settings',
-        name: "settings",
-        component: () => import("@/views/Settings"),
+        name: "Settings",
+        component: () => import("@/views/SettingsPage"),
     },
 
-    {
-        path: '/notesOfLabel',
-        name: "notesOfLabels",
-        component: () => import("@/views/NotesOfLabel")
-    }
+   
 ];
 
 const router = createRouter({
