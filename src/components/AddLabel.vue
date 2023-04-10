@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="relative" >
     <button
       @click="notesOfLabel"
       id="label"
@@ -17,7 +17,7 @@
         v-on-click-outside = "closeBar"
         id="colorBar"
         ref="colorBar"
-        class="block absolute bg-[#eaeaea] w-64 h-32 mt-3 ml-2 pt-[17px] border-[1px] border-zinc-300 rounded-lg"
+        class="absolute z-10 block bg-[#eaeaea] w-64 h-32 mt-3 ml-2 pt-[17px] border-[1px] border-zinc-300 rounded-lg"
       >
         <button
           v-for="(button, index) in buttons"

@@ -3,7 +3,7 @@ import { createRouter } from "vue-router";
 
 const routes = [
     {
-        path: '/startseite', 
+        path: '/', 
         name: 'Startseite',
         component: () => import("@/views/Startseite"),
     },
@@ -21,33 +21,27 @@ const routes = [
     },
 
     {
-        path: '/forgotpassword',
+        path: '/refreshpassword',
         name: 'RefreshPasswordPage',
         component: () => import("@/views/RefreshPassword"),
     },
 
     {
-        path: '/home',
-        name: 'NotelyHomePage',
-        component: () => import("@/views/NotelyHome"),
+        path: '/lists',
+        name: "Lists",
+        component: () => import("@/views/ListsPage"),
     },
 
     {
-        path: '/toDoList',
-        name: "ToDoList",
-        component: () => import("@/views/ToDoListPage"),
+        path: '/notes',
+        name: "Notes",
+        component: () => import("@/views/NotesPage"),
     },
 
     {
-        path: '/note',
-        name: "Note",
-        component: () => import("@/views/NotePage"),
-    },
-
-    {
-        path: '/label',
-        name: "Label",
-        component: () => import("@/views/LabelPage"),
+        path: '/labels',
+        name: "Labels",
+        component: () => import("@/views/LabelsPage"),
     },
 
     {
@@ -67,7 +61,6 @@ const routes = [
         name: "Settings",
         component: () => import("@/views/SettingsPage"),
     },
-
    
 ];
 

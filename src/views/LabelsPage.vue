@@ -2,10 +2,9 @@
   <div>
     <SideBar />
     <div
-      class="flex h-screen bg-[#eaeaea] dark:bg-[#2a2b2e]"
-      :class="notesOfLabelValue ? w - 1 / 2 : w - full"
+      class="h-screen bg-[#eaeaea] dark:bg-[#2a2b2e] pl-[25px] pb-20 overflow-y-scroll"
     >
-      <div class="h-[calc(100%-42px)] w-1/2 bg-[#eaeaea] ml-[50px] mt-[42px] pt-[48px] drop-shadow-sm border-r-[1px] border-zinc-300 overflow-scroll">
+      <div class="h-[calc(100%-42px)] bg-[#eaeaea] ml-[50px] mt-[42px] pt-[48px]">
         <div class="">
           <div id="addLabel" class="">
             <p
@@ -27,21 +26,17 @@
               <i class="bi bi-check mb-1 text-white text-xl"></i>
             </button>
           </div>
-          <div v-if="labelsList.length > 0" id="labels" class="mt-8">
-            <add-labels
+            <div v-if="labelsList.length > 0" id="labels" class="mt-8">
+            <add-label
               v-for="label in labelsList"
               :key="label.name"
               :label="label"
               @save-label="updateLabel"
             >
-            </add-labels>
-          </div>
+            </add-label>
+          </div>   
         </div>
       </div>
-      <div class="h-[calc(100%-42px)] w-1/2 bg-[#eaeaea] mt-[42px]">
-      notes  
-      </div>
-    
     </div>
   </div>
 </template>
@@ -49,9 +44,9 @@
 <script setup>
 import { ref } from "vue";
 import SideBar from "@/components/SideBar.vue";
-import AddLabels from "@/components/AddLabels.vue";
+import AddLabel from "@/components/AddLabel.vue";
 
-const notesOfLabelValue = ref(false);
+//const notesOfLabelValue = ref(false);
 const labelsList = ref([]);
 const labelItem = ref();
 const buttons = [
