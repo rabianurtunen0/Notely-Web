@@ -497,9 +497,9 @@ import { doc, getDoc } from "firebase/firestore";
 
 const sidebarSize = ref("ml-[50px]");
 //const bar = ref(false)
-const editprofile = ref(true);
+//const editprofile = ref(true);
 //const changePassword = ref(true);
-const logout = ref(false);
+//const logout = ref(false);
 const email = ref();
 const fullname = ref();
 const profilepicture = ref();
@@ -512,6 +512,7 @@ const getSidebarSize = (value) => {
   console.log(sidebarSize.value);
 };
 
+/*
 const editProfile = () => {
   editprofile.value = true;
   logout.value = false;
@@ -522,7 +523,6 @@ const logOut = () => {
   editprofile.value = false;
 }
 
-/*
 const openEditProfile = () => {
   editProfile.value = true;
 };

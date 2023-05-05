@@ -45,7 +45,6 @@ const edit = ref(false)
 const getNote = () => {
   console.log("Title ? ", title.value)
   console.log("Note ? ", note.value)
-  
   edit.value = true 
 }
 

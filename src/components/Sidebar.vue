@@ -10,14 +10,6 @@
           <img src="@/assets/images/app_icon.svg" class="h-10 w-10 mt-2" />
         </div>
         <router-link
-          to="/lists"
-          active-class="!border-l-4 !border-[#a3333d] !bg-zinc-300 dark:!bg-zinc-700 !text-[#a3333d]"
-          exact-active-class=""
-          class="group group/item flex items-center group-hover:text-[#a3333d] text-[#2a2b2e] dark:text-white justify-center w-auto mb-1 h-10 hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:border-l-4 hover:border-[#a3333d]"
-        >
-          <i class="bi bi-list-check group-hover:text-[#a3333d]"></i>
-        </router-link>
-        <router-link
           to="/notes"
           active-class="!border-l-4 !border-[#a3333d] !bg-zinc-300 dark:!bg-zinc-700 !text-[#a3333d]"
           exact-active-class=""
@@ -87,17 +79,6 @@
             >NOTELY</label
           >
         </div>
-        <router-link
-          to="/lists"
-          active-class="!border-l-4 !border-[#a3333d] !bg-zinc-300 dark:!bg-zinc-700 !text-[#a3333d]"
-          exact-active-class=""
-          class="group group/item flex items-center group-hover:text-[#a3333d] text-[#2a2b2e] dark:text-white w-auto mb-1 h-10 hover:bg-zinc-300 dark:hover:bg-zinc-700 hover:border-l-4 hover:border-[#a3333d]"
-        >
-          <i class="ml-3 bi bi-list-check group-hover:text-[#a3333d]"></i>
-          <label class="ml-3 text-sm font-serif group-hover:text-[#a3333d]"
-            >Lists</label
-          >
-        </router-link>
         <router-link
           to="/notes"
           active-class="!border-l-4 !border-[#a3333d] !bg-zinc-300 dark:!bg-zinc-700 !text-[#a3333d]"

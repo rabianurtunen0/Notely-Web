@@ -30,23 +30,26 @@
             >
             </list-note>
           </div>
-          <div v-else class="mt-[70px] mb-[42px] mx-[28px]"
-         >
-            
+          <div v-else class="mt-[70px] mb-[42px] mx-[28px]">
             <VueFlexWaterfall
               class="items-center"
               :col="5"
               :col-spacing="15"
               :break-at="{ 1536: 6, 1500: 5, 1280: 4, 1024: 3, 768: 2, 500: 1 }"
               :break-by-container="true"
-            >    
+            >
               <grid-note
                 @givenNote="givenNote"
                 @editNote="editNote"
                 v-for="note in notesList"
                 :key="note.note"
                 :note="note"
-                :style="{ height: heightValues[Math.floor(Math.random() * heightValues.length)] }"
+                :style="{
+                  height:
+                    heightValues[
+                      Math.floor(Math.random() * heightValues.length)
+                    ],
+                }"
               >
               </grid-note>
             </VueFlexWaterfall>
@@ -66,9 +69,8 @@
           </div>
           <div class="justify-center items-center mx-12">
             <h3 class="font-serif mt-6 text-[#2a2b2e] dark:text-white">
-              Welcome to Notely. Notely is an easy way to take notes, create
-              lists, capture ideas, and more. Just open the app and write your
-              thoughts.
+              Welcome to Notely. Notely is an easy way to take notes, capture
+              ideas, and more. Just open the app and write your thoughts.
             </h3>
             <h3 class="font-serif font-black mt-2 dark:text-white">
               Start taking notes now
@@ -87,11 +89,34 @@
         "
       >
         <div
-          class="w-full h-9 border-b border-[#a3333d] dark:border-b-zinc-500"
+          class="w-full h-9 border-b border-b-[#a3333d] dark:border-zinc-500"
         >
           <button @click="changeNote" class="float-right mr-2 mt-[4.5px]">
             <i
               class="bi bi-check-square-fill text-[#a3333d] dark:text-white hover:text-[#a3333d]"
+            ></i>
+          </button>
+          <div
+            class="h-[23px] w-[1px] border-l-[1px] float-right mr-3 mt-1.5 border-l-zinc-600"
+          ></div>
+          <button @click="shareChangeNote" class="float-right mr-3 mt-1">
+            <i
+              class="bi bi-share text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+            ></i>
+          </button>
+          <button @click="trashChangeNote" class="float-right mr-3 mt-1">
+            <i
+              class="bi bi-trash text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+            ></i>
+          </button>
+          <button @click="archiveChangeNote" class="float-right mr-3 mt-1">
+            <i
+              class="bi bi-archive text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+            ></i>
+          </button>
+          <button @click="addLabelChangeNote" class="float-right mr-3 mt-1">
+            <i
+              class="bi bi-bookmark text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
             ></i>
           </button>
           <button @click="closeChangeNote" class="float-left ml-1 mt-[1px]">
@@ -100,6 +125,10 @@
             ></i>
           </button>
         </div>
+        <div
+          v-if="edit === true && label === true"
+          class="w-full h-28 border-b border-b-[#a3333d] dark:border-zinc-500"
+        ></div>
         <div class="mt-2 px-2 w-full">
           <input
             type="text"
@@ -139,18 +168,26 @@
             <div
               class="h-[23px] w-[1px] border-l-[1px] float-right mr-3 mt-1.5 border-l-zinc-600"
             ></div>
-            <i
-              class="bi bi-share float-right mr-3 mt-1 text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
-            ></i>
-            <i
-              class="bi bi-trash float-right mr-3 mt-1 text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
-            ></i>
-            <i
-              class="bi bi-archive float-right mr-3 mt-1 text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
-            ></i>
-            <i
-              class="bi bi-bookmark float-right mr-3 mt-1 text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
-            ></i>
+            <button @click="shareNote" class="float-right mr-3 mt-1">
+              <i
+                class="bi bi-share text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+              ></i>
+            </button>
+            <button @click="trashNote" class="float-right mr-3 mt-1">
+              <i
+                class="bi bi-trash text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+              ></i>
+            </button>
+            <button @click="archiveNote" class="float-right mr-3 mt-1">
+              <i
+                class="bi bi-archive text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+              ></i>
+            </button>
+            <button @click="addLabelNote" class="float-right mr-3 mt-1">
+              <i
+                class="bi bi-bookmark text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
+              ></i>
+            </button>
             <button @click="closeNote" class="float-left ml-1 mt-[1px]">
               <i
                 class="bi bi-x text-[20px] text-[#2a2b2e] dark:text-white hover:text-[#a3333d]"
@@ -210,6 +247,8 @@ import {
   addDoc,
   Timestamp,
   updateDoc,
+  deleteDoc,
+  setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -231,7 +270,8 @@ const getNote = ref([]);
 const changedTitle = ref();
 const changedNote = ref();
 const addNoteTextArea = ref();
-const heightValues = ref(['200px', '250px', '300px', '350px', '400px'])
+const heightValues = ref(["200px", "250px", "300px", "350px", "400px"]);
+const label = ref(false);
 
 const getView = (value) => {
   console.log(value);
@@ -296,7 +336,7 @@ const add = () => {
 const addNote = () => {
   noteArea.value = !noteArea.value;
   main.value.style.display = "block";
-  changingBar.value.style.display = "block";
+  edit.value = false;
   console.log("Title: " + title.value);
   console.log("Note: " + note.value);
   if (title.value == "" && note.value == "") {
@@ -327,6 +367,46 @@ const addData = async () => {
   note.value = "";
 };
 
+const shareNote = () => {};
+
+const trashNote = async () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userEmail = user.email;
+  const docRef = await addDoc(doc(doc(db, "Users", userEmail), "Trash"), {
+    title: title.value,
+    note: note.value,
+    noteId: "",
+    date: Timestamp.now(),
+  });
+  await updateDoc(doc(doc(db, "Users", userEmail), "Trash", docRef.id), {
+    noteId: docRef.id,
+  });
+  title.value = "";
+  note.value = "";
+  noteArea.value = false;
+};
+
+const archiveNote = async () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userEmail = user.email;
+  const docRef = await addDoc(doc(doc(db, "Users", userEmail), "Archive"), {
+    title: title.value,
+    note: note.value,
+    noteId: "",
+    date: Timestamp.now(),
+  });
+  await updateDoc(doc(doc(db, "Users", userEmail), "Archive", docRef.id), {
+    noteId: docRef.id,
+  });
+  title.value = "";
+  note.value = "";
+  noteArea.value = false;
+};
+
+const addLabelNote = () => {};
+
 const closeNote = () => {
   noteArea.value = false;
   main.value.style.display = "block";
@@ -337,6 +417,7 @@ const closeNote = () => {
 
 const closeChangeNote = () => {
   edit.value = false;
+  label.value = false;
 };
 
 /*
@@ -373,4 +454,40 @@ const closeChangeNote = () => {
   editNote.value = false
 }
 */
+
+const shareChangeNote = () => {};
+
+const trashChangeNote = async () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userEmail = user.email;
+  console.log(getNote.value);
+  await deleteDoc(doc(doc(db, "Users", userEmail), "Notes", getNote.value[0]));
+  await setDoc(doc(doc(db, "Users", userEmail), "Trash", getNote.value[0]), {
+    title: changedTitle.value,
+    note: changedNote.value,
+    noteId: getNote.value[0],
+    date: getNote.value[3],
+  });
+  edit.value = false;
+};
+
+const archiveChangeNote = async () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userEmail = user.email;
+  await deleteDoc(doc(doc(db, "Users", userEmail), "Notes", getNote.value[0]));
+  await setDoc(doc(doc(db, "Users", userEmail), "Archive", getNote.value[0]), {
+    title: changedTitle.value,
+    note: changedNote.value,
+    noteId: getNote.value[0],
+    date: getNote.value[3],
+  });
+  edit.value = false;
+};
+
+const addLabelChangeNote = () => {
+  label.value = !label.value;
+  console.log(label.value);
+};
 </script>
